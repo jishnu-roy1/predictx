@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "worker": "node src/worker.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
