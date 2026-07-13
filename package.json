@@ -18,5 +18,7 @@
   "bugs": {
     "url": "https://github.com/jishnu-roy1/predictx/issues"
   },
-  "homepage": "https://github.com/jishnu-roy1/predictx#readme"
+  "homepage": "https://github.com/jishnu-roy1/predictx#readme",
+  "dependencies": {
+  }
 }

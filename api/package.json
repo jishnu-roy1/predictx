@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "migrate": "docker compose run --rm api node /app/shared/migrate.js"
   },
   "dependencies": {
     "pg": "^8.11.2",
