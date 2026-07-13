@@ -1,8 +1,13 @@
 {
   "scripts": {
-    "worker": "node src/worker.js"
+    "worker": "node src/worker.js",
+    "bull-ui": "node src/bull-ui.js"
   },
   "dependencies": {
+    "@bull-board/api": "^4.3.6",
+    "@bull-board/express": "^4.3.6",
+    "bull": "^3.29.3",
+    "express": "^4.18.4",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.33.0"

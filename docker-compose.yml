@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   postgres:
@@ -48,6 +46,21 @@ services:
     env_file:
       - .env
 
+  bull-ui:
+    build:
+      context: .
+      dockerfile: ./worker/dockerfile
+    container_name: bull-ui
+    restart: always
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - .env
+    command: ["npm", "run", "bull-ui"]
+    ports:
+      - "8082:8082"
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -58,7 +71,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: jishnu.roy@gmail.com
       PGADMIN_DEFAULT_PASSWORD: pgadmin
     ports:
-      - "8082:80"
+      - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 

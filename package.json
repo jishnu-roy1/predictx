@@ -4,7 +4,9 @@
   "description": "This is a game predictions app which also rewards!",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up --build",
+    "start": "docker compose up --build",
+    "stop": "docker compose down",
+    "migrate": "docker compose run --rm api node /app/shared/migrate.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
