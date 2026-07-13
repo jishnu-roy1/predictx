@@ -5,6 +5,9 @@
     "migrate": "docker compose run --rm api node /app/shared/migrate.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.4",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.33.0"
