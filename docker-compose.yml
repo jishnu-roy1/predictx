@@ -31,7 +31,8 @@ services:
 
   api:
     build:
-      context: ./api
+      context: .
+      dockerfile: ./api/dockerfile
 
     container_name: express-api
 
@@ -49,7 +50,8 @@ services:
 
   worker:
     build:
-      context: ./worker
+      context: .
+      dockerfile: ./worker/dockerfile
 
     container_name: bull-worker
 
