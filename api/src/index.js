@@ -8,6 +8,10 @@ const server = http.createServer((req, res) => {
   res.end('API ready\n');
 });
 
+// TODO: add router folder
+// add routes
+// import all the routes
+
 async function start() {
   await ensureDatabaseExists();
   await sequelize.authenticate();

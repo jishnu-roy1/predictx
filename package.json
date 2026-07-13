@@ -1,0 +1,22 @@
+{
+  "name": "predictx",
+  "version": "1.0.0",
+  "description": "This is a game predictions app which also rewards!",
+  "main": "index.js",
+  "scripts": {
+    "start": "docker-compose up --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jishnu-roy1/predictx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jishnu-roy1/predictx/issues"
+  },
+  "homepage": "https://github.com/jishnu-roy1/predictx#readme"
+}
