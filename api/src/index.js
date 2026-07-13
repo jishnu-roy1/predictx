@@ -12,6 +12,15 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'API ready' });
 });
 
+app.use((err, req, res, next) => {
+    console.error('Error handling request:', err.stack);
+
+    const statusCode = err.status || 500;
+    const message  = err.message || 'Internal Server Error';
+    res.status(statusCode).json({ error: message });
+  next();
+});
+
 async function start() {
   await ensureDatabaseExists();
   await sequelize.authenticate();
