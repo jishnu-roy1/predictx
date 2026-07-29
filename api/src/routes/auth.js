@@ -9,7 +9,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
 // POST /auth/register
 router.post('/register', async (req, res) => {
-  const { email, password, status = 'active' } = req.body;
+    const { email, password, status = 'active' } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
@@ -20,9 +20,9 @@ router.post('/register', async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({ email, password: hashedPassword, status });
+    const user = await User.create({ email, password: hashedPassword, status });
 
-  return res.status(201).json({ id: user.id, email: user.email, status: user.status });
+    return res.status(201).json({ id: user.id, email: user.email, status: user.status, role: user.role });
 });
 
 // POST /auth/login
@@ -43,7 +43,7 @@ router.post('/login', async (req, res, next) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+        const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, {
             expiresIn: JWT_EXPIRES_IN,
         });
 

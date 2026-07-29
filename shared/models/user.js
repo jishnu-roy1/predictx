@@ -16,5 +16,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'active',
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user',
+    },
   });
 };

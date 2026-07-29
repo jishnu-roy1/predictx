@@ -8,7 +8,7 @@ RUN npm config set registry https://registry.npmjs.org/
 RUN npm install
 
 COPY api/. ./
-COPY shared ./shared
+COPY shared/ ./shared/
 
 EXPOSE 3000
 

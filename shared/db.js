@@ -41,12 +41,12 @@ async function ensureDatabaseExists() {
   }
 }
 
-const Job = require('./models/job')(sequelize);
 const User = require('./models/user')(sequelize);
+const Match = require('./models/matchs')(sequelize);
 
 module.exports = {
   sequelize,
-  Job,
   User,
+  Match,
   ensureDatabaseExists,
 };

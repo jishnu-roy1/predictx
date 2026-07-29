@@ -2,6 +2,7 @@ import express from 'express';
 import { sequelize, ensureDatabaseExists } from '../shared/db.js';
 import authRouter from './routes/auth.js';
 import authTestRouter from './routes/authTest.js';
+import adminRouter from './routes/admin.js';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/api', authTestRouter);
+app.use('/admin', adminRouter);
 
 app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'API ready' });

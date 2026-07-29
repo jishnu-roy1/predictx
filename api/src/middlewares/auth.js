@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
+import db from '../../shared/db.js';
 
+const { User } = db;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export default function authMiddleware(req, res, next) {
+export default async function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader) {
         return res.status(401).json({ error: 'Authorization header missing' });
@@ -27,11 +29,27 @@ export default function authMiddleware(req, res, next) {
         return res.status(401).json({ error: 'Token missing' });
     }
 
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
-        return next();
-    } catch (err) {
-        return res.status(401).json({ error: 'Invalid or expired token' });
-    }
+        try {
+                const decoded = jwt.verify(token, JWT_SECRET);
+                req.user = decoded;
+
+                // attach fresh user from DB for sensitive checks (may be null)
+                try {
+                    const current = await User.findByPk(decoded.id);
+                    if (current) {
+                        req.currentUser = {
+                            id: current.id,
+                            email: current.email,
+                            role: current.role,
+                            status: current.status,
+                        };
+                    }
+                } catch (e) {
+                    // ignore DB errors here; token is still valid
+                }
+
+                return next();
+        } catch (err) {
+                return res.status(401).json({ error: 'Invalid or expired token' });
+        }
 }
