@@ -7,6 +7,7 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'change-me';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
+// POST /auth/register
 router.post('/register', async (req, res) => {
   const { email, password, status = 'active' } = req.body;
   if (!email || !password) {
@@ -24,6 +25,7 @@ router.post('/register', async (req, res) => {
   return res.status(201).json({ id: user.id, email: user.email, status: user.status });
 });
 
+// POST /auth/login
 router.post('/login', async (req, res, next) => {
     try {
         const { email, password } = req.body;
