@@ -30,5 +30,8 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+    }, {
+        tableName: 'Matches',
+        freezeTableName: true,
     });
 }

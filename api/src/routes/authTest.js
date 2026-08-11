@@ -5,15 +5,10 @@ import db from '../../shared/db.js';
 
 const router = express.Router();
 
-router.get('/test-auth', authMiddleware, (req, res) => {
-    res.json({ message: 'auth ok', user: req.user });
-});
-
 // GET /api/get-matchs returns a list of matches (public endpoint)
 router.get('/get-matchs/', async (req, res, next) => {
     try {
         const { active } = req.query;
-        console.log('Query parameters: jishnu', req.query);
         const minMinutes = Number(req.query.minMinutes ?? 30);
 
         let whereClause = {};
