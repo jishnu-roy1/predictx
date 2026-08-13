@@ -44,6 +44,7 @@ async function ensureDatabaseExists() {
 const User = require('./models/user')(sequelize);
 const Match = require('./models/matchs')(sequelize);
 const Vote = require('./models/vote')(sequelize);
+const Transaction = require('./models/transaction')(sequelize);
 
 User.hasMany(Vote, { foreignKey: 'userId' });
 Vote.belongsTo(User, { foreignKey: 'userId' });
@@ -51,10 +52,18 @@ Vote.belongsTo(User, { foreignKey: 'userId' });
 Match.hasMany(Vote, { foreignKey: 'matchId' });
 Vote.belongsTo(Match, { foreignKey: 'matchId' });
 
+// Transactions associations
+User.hasMany(Transaction, { foreignKey: 'userId' });
+Transaction.belongsTo(User, { foreignKey: 'userId' });
+
+Match.hasMany(Transaction, { foreignKey: 'matchId' });
+Transaction.belongsTo(Match, { foreignKey: 'matchId' });
+
 module.exports = {
   sequelize,
   User,
   Match,
   Vote,
+  Transaction,
   ensureDatabaseExists,
 };

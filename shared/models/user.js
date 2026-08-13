@@ -21,6 +21,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'user',
     },
+    points: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   }, {
     tableName: 'user',
     freezeTableName: true,
