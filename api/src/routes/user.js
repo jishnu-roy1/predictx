@@ -1,9 +1,42 @@
-import express from 'express';
-import authMiddleware from '../middlewares/auth.js';
-import db from '../../shared/db.js';
+const express = require('express');
+const authMiddleware = require('../middlewares/auth.js');
+const db = require('../../shared/db.js');
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /user/vote:
+ *   post:
+ *     summary: Cast a vote on a match
+ *     tags:
+ *       - User
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - matchId
+ *               - team
+ *             properties:
+ *               matchId:
+ *                 type: integer
+ *               team:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Voting successful
+ *       400:
+ *         description: matchId and team are required, or user already voted
+ *       404:
+ *         description: Match not found
+ *       401:
+ *         description: Unauthorized
+ */
 // to cast vote, the user must be logged in and have a valid token
 // POST /user/vote
 router.post('/vote', authMiddleware, async (req, res, next) => {
@@ -43,4 +76,4 @@ router.post('/vote', authMiddleware, async (req, res, next) => {
     }
 });
 
-export default router;
+module.exports = router;

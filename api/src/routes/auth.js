@@ -7,6 +7,52 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'change-me';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 default: active
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 email:
+ *                   type: string
+ *                 status:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *       400:
+ *         description: Email and password are required
+ *       409:
+ *         description: Email already in use
+ */
 // POST /auth/register
 router.post('/register', async (req, res) => {
     const { email, password, status = 'active' } = req.body;
@@ -25,6 +71,45 @@ router.post('/register', async (req, res) => {
     return res.status(201).json({ id: user.id, email: user.email, status: user.status, role: user.role });
 });
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login with email and password
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 expiresIn:
+ *                   type: string
+ *       400:
+ *         description: Email and password are required
+ *       401:
+ *         description: Invalid credentials
+ */
 // POST /auth/login
 router.post('/login', async (req, res, next) => {
     try {

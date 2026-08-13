@@ -1,14 +1,17 @@
-import express from 'express';
-import { sequelize, ensureDatabaseExists } from '../shared/db.js';
-import authRouter from './routes/auth.js';
-import authTestRouter from './routes/authTest.js';
-import adminRouter from './routes/admin.js';
-import userRouter from './routes/user.js';
+const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const { sequelize, ensureDatabaseExists } = require('../shared/db.js');
+const swaggerSpecs = require('./swagger.js');
+const authRouter = require('./routes/auth.js');
+const authTestRouter = require('./routes/authTest.js');
+const adminRouter = require('./routes/admin.js');
+const userRouter = require('./routes/user.js');
 
 const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use('/auth', authRouter);
 app.use('/api', authTestRouter);
 app.use('/user', userRouter);

@@ -1,10 +1,45 @@
-import express from 'express';
-import authMiddleware from '../middlewares/auth.js';
-import db from '../../shared/db.js';
+const express = require('express');
+const authMiddleware = require('../middlewares/auth.js');
+const db = require('../../shared/db.js');
 
 const { User } = db;
 const router = express.Router();
 
+/**
+ * @swagger
+ * /admin/users/{id}/role:
+ *   post:
+ *     summary: Update user role (admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [admin, user]
+ *     responses:
+ *       200:
+ *         description: Role updated successfully
+ *       403:
+ *         description: Forbidden - not an admin
+ *       404:
+ *         description: User not found
+ */
 // POST /admin/users/:id/role
 router.post('/users/:id/role', authMiddleware, async (req, res, next) => {
   try {
@@ -33,6 +68,46 @@ router.post('/users/:id/role', authMiddleware, async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /admin/matchs:
+ *   post:
+ *     summary: Create a new match (admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - teamA
+ *               - teamB
+ *               - date
+ *             properties:
+ *               title:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
+ *               teamA:
+ *                 type: string
+ *               teamB:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *               location:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Match created successfully
+ *       403:
+ *         description: Forbidden - not an admin
+ */
 // POST /admin/matchs creates a new match (admin only)
 router.post('/matchs', authMiddleware, async (req, res, next) => {
   try {
@@ -58,8 +133,42 @@ router.post('/matchs', authMiddleware, async (req, res, next) => {
   }
 });
 
-export default router;
-
+/**
+ * @swagger
+ * /admin/matchs/winner:
+ *   post:
+ *     summary: Declare winner and award points (admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - winner
+ *               - id
+ *               - win_points
+ *             properties:
+ *               winner:
+ *                 type: string
+ *               id:
+ *                 type: integer
+ *               win_points:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Winner declared and points awarded
+ *       403:
+ *         description: Forbidden - not an admin
+ *       404:
+ *         description: Match not found
+ *       409:
+ *         description: Winner already set
+ */
 // POST /admin/matchs/winner - declare winner and award points
 router.post('/matchs/winner', authMiddleware, async (req, res, next) => {
   try {
@@ -116,3 +225,5 @@ router.post('/matchs/winner', authMiddleware, async (req, res, next) => {
     next(err);
   }
 });
+
+module.exports = router;

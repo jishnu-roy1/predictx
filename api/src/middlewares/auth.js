@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken';
-import db from '../../shared/db.js';
+const jwt = require('jsonwebtoken');
+const db = require('../../shared/db.js');
 
 const { User } = db;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export default async function authMiddleware(req, res, next) {
+module.exports = async function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader) {
         return res.status(401).json({ error: 'Authorization header missing' });
@@ -52,4 +52,4 @@ export default async function authMiddleware(req, res, next) {
         } catch (err) {
                 return res.status(401).json({ error: 'Invalid or expired token' });
         }
-}
+};
