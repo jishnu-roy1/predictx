@@ -63,6 +63,10 @@ router.post('/vote', authMiddleware, async (req, res, next) => {
         if (existingVote) {
             return res.status(400).json({ error: 'You have already voted for this match' });
         }
+        // check if the team is valid for this match
+        if (team !== match.teamA && team !== match.teamB) {
+            return res.status(400).json({ error: 'Invalid team for this match' });
+        }
         // insert in votes table with userId, matchId, and team
         const vote = await db.Vote.create({
             userId: req.user.id,

@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
             allowNull: true,
         },
     }, {
-        tableName: 'Matches',
+        tableName: 'match',
         freezeTableName: true,
     });
 }
