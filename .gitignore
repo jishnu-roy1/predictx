@@ -5,3 +5,4 @@ worker/node_modules
 api/.env
 worker/.env
 
+node_modules
