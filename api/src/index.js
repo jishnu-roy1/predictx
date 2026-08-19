@@ -32,18 +32,27 @@ app.use(
   })
 );
 
+const generalRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 200,
-    standardHeaders: true,
-    legacyHeaders: false,
-  })
+  generalRateLimit
 );
 
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use('/auth', authRouter);
+app.use('/auth', authRateLimit, authRouter);
 app.use('/api', commonRouter);
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
